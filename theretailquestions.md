@@ -29,157 +29,53 @@
 14. **Identify the products that have been discounted more than 20%.**
    
 15. **Retrieve the details of employees who earn a salary higher than their department average.**
-Certainly! Here are 15 advanced SQL questions along with their answers:
+
+----
+These advanced SQL questions cover complex scenarios and utilize advanced SQL techniques such as window functions, subqueries, and advanced aggregations.
+----
 
 16. **Find the customers who have made at least two orders, where the time difference between their first and last order is more than 30 days.**
 
 17. **Calculate the moving average of total sales amount over a window of 3 months.**
-18. 
-3. **Identify customers who have spent more than the average amount spent by all customers.**
+    
+18. **Identify customers who have spent more than the average amount spent by all customers.**
+    
+20. **Retrieve the top 3 categories that contribute the most to total revenue.**
 
-    ```sql
-    SELECT c.Name, SUM(o.TotalAmount) AS TotalSpent
-    FROM Customers c
-    INNER JOIN Orders o ON c.CustomerID = o.CustomerID
-    GROUP BY c.Name
-    HAVING TotalSpent > (SELECT AVG(TotalAmount) FROM Orders);
-    ```
+21. **List the customers who have not made any purchases in the last 6 months.**
+  
+22. **Calculate the percentage contribution of each product to total sales.**
 
-4. **Retrieve the top 3 categories that contribute the most to total revenue.**
+23. **Find the customers who have made purchases in all categories.**
 
-    ```sql
-    SELECT p.Category, SUM(s.Amount) AS TotalRevenue
-    FROM Products p
-    INNER JOIN Sales s ON p.ProductID = s.ProductID
-    GROUP BY p.Category
-    ORDER BY TotalRevenue DESC
-    LIMIT 3;
-    ```
+24. **Retrieve the top 5 customers who have made the highest number of orders in the last year.**
 
-5. **List the customers who have not made any purchases in the last 6 months.**
+25. **List the employees who have managed departments with an average salary higher than $50000.**
 
-    ```sql
-    SELECT c.Name, MAX(o.OrderDate) AS LastPurchaseDate
-    FROM Customers c
-    LEFT JOIN Orders o ON c.CustomerID = o.CustomerID
-    GROUP BY c.CustomerID
-    HAVING LastPurchaseDate IS NULL OR LastPurchaseDate < DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH);
-    ```
+26. **Calculate the 90th percentile of order amounts.**
 
-6. **Calculate the percentage contribution of each product to total sales.**
+27. **Identify the products that have been ordered by at least 3 different customers.**
 
-    ```sql
-    SELECT p.Name, 
-           SUM(s.Amount) / (SELECT SUM(Amount) FROM Sales) * 100 AS ContributionPercentage
-    FROM Products p
-    INNER JOIN Sales s ON p.ProductID = s.ProductID
-    GROUP BY p.Name;
-    ```
+28. **Find the total revenue generated for each month in the last year.**
 
-7. **Find the customers who have made purchases in all categories.**
+29. **Retrieve the top 3 customers who have made the highest total purchases in terms of quantity.**
 
-    ```sql
-    SELECT c.Name
-    FROM Customers c
-    INNER JOIN (
-        SELECT DISTINCT CustomerID, Category
-        FROM Orders o
-        INNER JOIN OrderDetails od ON o.OrderID = od.OrderID
-        INNER JOIN Products p ON od.ProductID = p.ProductID
-    ) cust_categories ON c.CustomerID = cust_categories.CustomerID
-    GROUP BY c.Name
-    HAVING COUNT(DISTINCT cust_categories.Category) = (SELECT COUNT(DISTINCT Category) FROM Products);
-    ```
+30. **List the customers who have made purchases of at least $1000 in each of the last 3 months.**
 
-8. **Retrieve the top 5 customers who have made the highest number of orders in the last year.**
+31. **Identify the customers who have placed orders for all products in a specific category.**
 
-    ```sql
-    SELECT c.Name, COUNT(o.OrderID) AS NumOrders
-    FROM Customers c
-    INNER JOIN Orders o ON c.CustomerID = o.CustomerID
-    WHERE o.OrderDate >= DATE_SUB(CURRENT_DATE(), INTERVAL 1 YEAR)
-    GROUP BY c.Name
-    ORDER BY NumOrders DESC
-    LIMIT 5;
-    ```
+----
+These scenarios involve more complex analysis and require a deep understanding of SQL concepts, including joins, subqueries, aggregations, and date manipulation functions.
+----
 
-9. **List the employees who have managed departments with an average salary higher than $50000.**
+32. **Identify customers who have made purchases in all months of the last year, and calculate the average number of days between their purchases.**
+33. **Calculate the total sales amount for each day of the week, considering only weekdays.**
+34. **Find the customers who have made purchases on consecutive days, and calculate the average amount of their purchases.**
+35. **Identify the products that have been ordered in each quarter of the last year, and calculate the total quantity sold for each product in each quarter.**
+36. **Retrieve the top 3 most loyal customers, based on the number of repeat purchases they have made within a month of their previous purchase.** 
+37. **Calculate the percentage of total sales contributed by each product category, excluding categories with less than 5% contribution.**
+38. **Identify customers who have made purchases every month in the last year, and calculate the average amount they spent in each month.**
+39. **Find the products that have been ordered together at least 3 times within a month, and calculate the average quantity ordered together.**
+40. **Retrieve the top 3 most profitable customers in terms of total purchases, considering only weekdays.** 
+41. **Calculate the average time taken between the first purchase and the second purchase for each customer.**
 
-    ```sql
-    SELECT e.Name
-    FROM Employees e
-    INNER JOIN (
-        SELECT ManagerName, AVG(Salary) AS AvgSalary
-        FROM Employees
-        GROUP BY ManagerName
-    ) dept_avg ON e.Name = dept_avg.ManagerName
-    WHERE dept_avg.AvgSalary > 50000;
-    ```
-
-10. **Calculate the 90th percentile of order amounts.**
-
-    ```sql
-    SELECT PERCENTILE_CONT(0.9) WITHIN GROUP (ORDER BY TotalAmount) AS 90thPercentile
-    FROM Orders;
-    ```
-
-11. **Identify the products that have been ordered by at least 3 different customers.**
-
-    ```sql
-    SELECT p.Name
-    FROM Products p
-    INNER JOIN OrderDetails od ON p.ProductID = od.ProductID
-    INNER JOIN Orders o ON od.OrderID = o.OrderID
-    GROUP BY p.Name
-    HAVING COUNT(DISTINCT o.CustomerID) >= 3;
-    ```
-
-12. **Find the total revenue generated for each month in the last year.**
-
-    ```sql
-    SELECT DATE_FORMAT(SaleDate, '%Y-%m') AS Month, SUM(Amount) AS TotalRevenue
-    FROM Sales
-    WHERE SaleDate >= DATE_SUB(CURRENT_DATE(), INTERVAL 1 YEAR)
-    GROUP BY Month;
-    ```
-
-13. **Retrieve the top 3 customers who have made the highest total purchases in terms of quantity.**
-
-    ```sql
-    SELECT c.Name, SUM(od.Quantity) AS TotalQuantity
-    FROM Customers c
-    INNER JOIN Orders o ON c.CustomerID = o.CustomerID
-    INNER JOIN OrderDetails od ON o.OrderID = od.OrderID
-    GROUP BY c.Name
-    ORDER BY TotalQuantity DESC
-    LIMIT 3;
-    ```
-
-14. **List the customers who have made purchases of at least $1000 in each of the last 3 months.**
-
-    ```sql
-    SELECT c.Name, 
-           YEAR(o.OrderDate) AS Year, 
-           MONTH(o.OrderDate) AS Month, 
-           SUM(o.TotalAmount) AS MonthlyTotal
-    FROM Customers c
-    INNER JOIN Orders o ON c.CustomerID = o.CustomerID
-    WHERE o.OrderDate >= DATE_SUB(CURRENT_DATE(), INTERVAL 3 MONTH)
-    GROUP BY c.Name, Year, Month
-    HAVING MonthlyTotal >= 1000;
-    ```
-
-15. **Identify the customers who have placed orders for all products in a specific category.**
-
-    ```sql
-    SELECT c.Name
-    FROM Customers c
-    INNER JOIN Orders o ON c.CustomerID = o.CustomerID
-    INNER JOIN OrderDetails od ON o.OrderID = od.OrderID
-    INNER JOIN Products p ON od.ProductID = p.ProductID
-    WHERE p.Category = 'specific_category'
-    GROUP BY c.Name
-    HAVING COUNT(DISTINCT p.ProductID) = (SELECT COUNT(*) FROM Products WHERE Category = 'specific_category');
-    ```
-
-These advanced SQL questions cover complex scenarios and utilize advanced SQL techniques such as window functions, subqueries, and advanced aggregations.
