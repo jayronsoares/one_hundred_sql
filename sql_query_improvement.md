@@ -139,7 +139,7 @@
          quantity - LAG(quantity) OVER (ORDER BY sale_date) AS quantity_change
   FROM sales;
   ```
-**Now, let's say we want to analyze the change in quantity of products ordered from one order to the next. We can achieve this using the LAG() and LEAD() functions:**
+**Now, let's say we want to analyze the change in quantity of products ordered from one order to the next:**
 
 ```sql
 --------------------------------------------------------------------------------------------------
