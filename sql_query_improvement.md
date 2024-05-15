@@ -8,22 +8,21 @@
 
 2. **Partitioning**
    - Partitioning large tables into smaller segments can boost query performance, especially for queries targeting specific data subsets.
-   
-     ```sql
--- Assuming PostgreSQL syntax
-ALTER TABLE sales PARTITION BY RANGE (EXTRACT(YEAR FROM sale_date))
-(
+   ```sql
+   -- Assuming PostgreSQL syntax
+   ALTER TABLE sales PARTITION BY RANGE (EXTRACT(YEAR FROM sale_date))
+   (
     PARTITION p2020 VALUES LESS THAN (2021),
     PARTITION p2021 VALUES LESS THAN (2022),
     PARTITION p2022 VALUES LESS THAN (2023),
     PARTITION p2023 VALUES LESS THAN (2024),
     PARTITION p_future VALUES LESS THAN (MAXVALUE)
-);
-```
-```sql
--- Assuming MySQL syntax
-ALTER TABLE sales PARTITION BY RANGE (sale_date)
-(
+   );
+   ```
+   ```sql
+   -- Assuming MySQL syntax
+   ALTER TABLE sales PARTITION BY RANGE (sale_date)
+   (
     PARTITION p2020 Q1 VALUES LESS THAN ('2020-04-01'),
     PARTITION p2020 Q2 VALUES LESS THAN ('2020-07-01'),
     PARTITION p2020 Q3 VALUES LESS THAN ('2020-10-01'),
@@ -33,8 +32,8 @@ ALTER TABLE sales PARTITION BY RANGE (sale_date)
     PARTITION p2021 Q3 VALUES LESS THAN ('2021-10-01'),
     PARTITION p2021 Q4 VALUES LESS THAN ('2022-01-01'),
     PARTITION p_future VALUES LESS THAN (MAXVALUE)
-);
-```
+   );
+   ```
 
 **Differentiating TRUNCATE, DROP, and DELETE Operations in SQL**
 
