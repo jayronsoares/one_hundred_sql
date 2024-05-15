@@ -208,9 +208,9 @@ In this simplified example:
          AVG(salary) OVER (PARTITION BY department_id) AS avg_salary_by_department
   FROM employees;
   ```
-  
-  **Using Indexes in WHERE and JOIN Clauses**
-
+---------
+**Using Indexes in WHERE and JOIN Clauses**
+---------
 **1. Utilizing Indexes in WHERE Clauses:**
    - **Pros:**
      - Accelerates query execution by swiftly locating rows matching the WHERE condition.
