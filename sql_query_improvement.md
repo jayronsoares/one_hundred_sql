@@ -258,14 +258,6 @@ CREATE INDEX idx_status ON orders (status);
 SELECT * FROM orders WHERE status = 'pending';
 ```
 
-**In Summary:**
-- Leveraging indexes in WHERE and JOIN clauses can significantly enhance query performance, provided they are used judiciously and on appropriately selective columns.
-- High cardinality columns benefit most from indexing due to their selective nature, while low cardinality columns may offer marginal improvements, particularly for frequently accessed values.
-- Careful consideration of cardinality and query patterns is essential for effective index usage and query optimization in SQL databases.
-FROM employees;
-```
-
-
 **Clustered Index:**
 - **Example:** A Customers table with a clustered index on CustomerID:
 ```sql
@@ -304,3 +296,13 @@ CREATE TABLE Products (
   - Slower performance for range queries and sorted retrieval compared to clustered indexes.
   - Requires additional disk space.
 - **When to Use:** Use when frequently queried columns are not suitable for a clustered index or when covering queries and index key flexibility are needed.
+
+
+
+
+**In Summary:**
+- Leveraging indexes in WHERE and JOIN clauses can significantly enhance query performance, provided they are used judiciously and on appropriately selective columns.
+- High cardinality columns benefit most from indexing due to their selective nature, while low cardinality columns may offer marginal improvements, particularly for frequently accessed values.
+- Careful consideration of cardinality and query patterns is essential for effective index usage and query optimization in SQL databases.
+FROM employees;
+```
