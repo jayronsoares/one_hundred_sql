@@ -264,9 +264,9 @@ SELECT * FROM orders WHERE status = 'pending';
 - Careful consideration of cardinality and query patterns is essential for effective index usage and query optimization in SQL databases.
 FROM employees;
 ```
---------
+
 **Clustered vs Non-Clustered indexes**
---------
+
 **Clustered Index:**
 - **Example:** A Customers table with a clustered index on CustomerID:
 ```sql
