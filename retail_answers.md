@@ -1,4 +1,4 @@
-**These questions cover a range of scenarios and SQL functionalities, helping to solidify SQL skills at an intermediate level.**
+**Intermediate SQL questions.**
 
 1. **Retrieve the names and email addresses of customers who have placed orders.**
    
@@ -137,12 +137,9 @@
     ) dept_avg ON e.Department = dept_avg.Department
     WHERE e.Salary > dept_avg.AvgSalary;
     ```
+**Advanced SQL questions**
 
-
-**These advanced SQL questions cover complex scenarios and utilize advanced SQL techniques such as window functions, subqueries, and advanced aggregations.**
-
-
-1. **Find the customers who have made at least two orders, where the time difference between their first and last order is more than 30 days.**
+16. **Find the customers who have made at least two orders, where the time difference between their first and last order is more than 30 days.**
 
     ```sql
     SELECT c.Name, COUNT(o.OrderID) AS NumOrders
@@ -152,7 +149,7 @@
     HAVING NumOrders >= 2 AND DATEDIFF(MAX(o.OrderDate), MIN(o.OrderDate)) > 30;
     ```
 
-2. **Calculate the moving average of total sales amount over a window of 3 months.**
+17. **Calculate the moving average of total sales amount over a window of 3 months.**
 
     ```sql
     SELECT SaleDate, 
@@ -160,7 +157,7 @@
     FROM Sales;
     ```
 
-3. **Identify customers who have spent more than the average amount spent by all customers.**
+18. **Identify customers who have spent more than the average amount spent by all customers.**
 
     ```sql
     SELECT c.Name, SUM(o.TotalAmount) AS TotalSpent
@@ -170,7 +167,7 @@
     HAVING TotalSpent > (SELECT AVG(TotalAmount) FROM Orders);
     ```
 
-4. **Retrieve the top 3 categories that contribute the most to total revenue.**
+19. **Retrieve the top 3 categories that contribute the most to total revenue.**
 
     ```sql
     SELECT p.Category, SUM(s.Amount) AS TotalRevenue
@@ -181,7 +178,7 @@
     LIMIT 3;
     ```
 
-5. **List the customers who have not made any purchases in the last 6 months.**
+20. **List the customers who have not made any purchases in the last 6 months.**
 
     ```sql
     SELECT c.Name, MAX(o.OrderDate) AS LastPurchaseDate
@@ -191,7 +188,7 @@
     HAVING LastPurchaseDate IS NULL OR LastPurchaseDate < DATE_SUB(CURRENT_DATE(), INTERVAL 6 MONTH);
     ```
 
-6. **Calculate the percentage contribution of each product to total sales.**
+21. **Calculate the percentage contribution of each product to total sales.**
 
     ```sql
     SELECT p.Name, 
@@ -201,7 +198,7 @@
     GROUP BY p.Name;
     ```
 
-7. **Find the customers who have made purchases in all categories.**
+22. **Find the customers who have made purchases in all categories.**
 
     ```sql
     SELECT c.Name
@@ -216,7 +213,7 @@
     HAVING COUNT(DISTINCT cust_categories.Category) = (SELECT COUNT(DISTINCT Category) FROM Products);
     ```
 
-8. **Retrieve the top 5 customers who have made the highest number of orders in the last year.**
+23. **Retrieve the top 5 customers who have made the highest number of orders in the last year.**
 
     ```sql
     SELECT c.Name, COUNT(o.OrderID) AS NumOrders
@@ -228,7 +225,7 @@
     LIMIT 5;
     ```
 
-9. **List the employees who have managed departments with an average salary higher than $50000.**
+24. **List the employees who have managed departments with an average salary higher than $50000.**
 
     ```sql
     SELECT e.Name
@@ -241,14 +238,14 @@
     WHERE dept_avg.AvgSalary > 50000;
     ```
 
-10. **Calculate the 90th percentile of order amounts.**
+25. **Calculate the 90th percentile of order amounts.**
 
     ```sql
     SELECT PERCENTILE_CONT(0.9) WITHIN GROUP (ORDER BY TotalAmount) AS 90thPercentile
     FROM Orders;
     ```
 
-11. **Identify the products that have been ordered by at least 3 different customers.**
+26. **Identify the products that have been ordered by at least 3 different customers.**
 
     ```sql
     SELECT p.Name
@@ -259,7 +256,7 @@
     HAVING COUNT(DISTINCT o.CustomerID) >= 3;
     ```
 
-12. **Find the total revenue generated for each month in the last year.**
+27. **Find the total revenue generated for each month in the last year.**
 
     ```sql
     SELECT DATE_FORMAT(SaleDate, '%Y-%m') AS Month, SUM(Amount) AS TotalRevenue
@@ -268,7 +265,7 @@
     GROUP BY Month;
     ```
 
-13. **Retrieve the top 3 customers who have made the highest total purchases in terms of quantity.**
+28. **Retrieve the top 3 customers who have made the highest total purchases in terms of quantity.**
 
     ```sql
     SELECT c.Name, SUM(od.Quantity) AS TotalQuantity
@@ -280,7 +277,7 @@
     LIMIT 3;
     ```
 
-14. **List the customers who have made purchases of at least $1000 in each of the last 3 months.**
+29. **List the customers who have made purchases of at least $1000 in each of the last 3 months.**
 
     ```sql
     SELECT c.Name, 
@@ -294,7 +291,7 @@
     HAVING MonthlyTotal >= 1000;
     ```
 
-15. **Identify the customers who have placed orders for all products in a specific category.**
+30. **Identify the customers who have placed orders for all products in a specific category.**
 
     ```sql
     SELECT c.Name
@@ -307,9 +304,7 @@
     HAVING COUNT(DISTINCT p.ProductID) = (SELECT COUNT(*) FROM Products WHERE Category = 'specific_category');
     ```
 
-**There are 10 SQL questions with complex analysis scenarios to help master SQL:**
-
-1. **Identify customers who have made purchases in all months of the last year, and calculate the average number of days between their purchases.**
+31. **Identify customers who have made purchases in all months of the last year, and calculate the average number of days between their purchases.**
 
     ```sql
     SELECT 
@@ -326,7 +321,7 @@
     HAVING COUNT(DISTINCT MONTH(o1.OrderDate)) = 12;
     ```
 
-2. **Calculate the total sales amount for each day of the week, considering only weekdays.**
+32. **Calculate the total sales amount for each day of the week, considering only weekdays.**
 
     ```sql
     SELECT 
@@ -337,7 +332,7 @@
     GROUP BY DayOfWeek;
     ```
 
-3. **Find the customers who have made purchases on consecutive days, and calculate the average amount of their purchases.**
+33. **Find the customers who have made purchases on consecutive days, and calculate the average amount of their purchases.**
 
     ```sql
     SELECT 
@@ -355,7 +350,7 @@
     GROUP BY c.CustomerID;
     ```
 
-4. **Identify the products that have been ordered in each quarter of the last year, and calculate the total quantity sold for each product in each quarter.**
+34. **Identify the products that have been ordered in each quarter of the last year, and calculate the total quantity sold for each product in each quarter.**
 
     ```sql
     SELECT 
@@ -371,7 +366,7 @@
     GROUP BY p.ProductID, Year, Quarter;
     ```
 
-5. **Retrieve the top 3 most loyal customers, based on the number of repeat purchases they have made within a month of their previous purchase.**
+35. **Retrieve the top 3 most loyal customers, based on the number of repeat purchases they have made within a month of their previous purchase.**
 
     ```sql
     SELECT 
@@ -393,7 +388,7 @@
     LIMIT 3;
     ```
 
-6. **Calculate the percentage of total sales contributed by each product category, excluding categories with less than 5% contribution.**
+36. **Calculate the percentage of total sales contributed by each product category, excluding categories with less than 5% contribution.**
 
     ```sql
     SELECT 
@@ -405,7 +400,7 @@
     HAVING ContributionPercentage >= 5;
     ```
 
-7. **Identify customers who have made purchases every month in the last year, and calculate the average amount they spent in each month.**
+37. **Identify customers who have made purchases every month in the last year, and calculate the average amount they spent in each month.**
 
     ```sql
     SELECT 
@@ -419,7 +414,7 @@
     HAVING COUNT(DISTINCT MONTH(o.OrderDate)) = 12;
     ```
 
-8. **Find the products that have been ordered together at least 3 times within a month, and calculate the average quantity ordered together.**
+38. **Find the products that have been ordered together at least 3 times within a month, and calculate the average quantity ordered together.**
 
     ```sql
     SELECT 
@@ -434,7 +429,7 @@
     HAVING COUNT(*) >= 3;
     ```
 
-9. **Retrieve the top 3 most profitable customers in terms of total purchases, considering only weekdays.**
+39. **Retrieve the top 3 most profitable customers in terms of total purchases, considering only weekdays.**
 
     ```sql
     SELECT 
@@ -450,7 +445,7 @@
     LIMIT 3;
     ```
 
-10. **Calculate the average time taken between the first purchase and the second purchase for each customer.**
+40. **Calculate the average time taken between the first purchase and the second purchase for each customer.**
 
     ```sql
     SELECT 
