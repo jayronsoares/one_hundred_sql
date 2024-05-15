@@ -2,7 +2,6 @@
 
 1. **Indexing**
    - Creating indexes on columns can enhance query speed, particularly for columns frequently used in filtering operations.
-   - Example: Creating an index on a frequently filtered column like "product_id" in an e-commerce database:
      ```sql
      CREATE INDEX idx_product_id ON products (product_id);
      ```
@@ -10,7 +9,6 @@
 2. **Partitioning**
    - Partitioning large tables into smaller segments can boost query performance, especially for queries targeting specific data subsets.
    
-   - Example: Partitioning a large sales table by date to improve query performance:
      ```sql
      ALTER TABLE sales PARTITION BY RANGE (sale_date) (
          PARTITION p1 VALUES LESS THAN ('2022-01-01'),
@@ -22,19 +20,18 @@
 **Differentiating TRUNCATE, DROP, and DELETE Operations in SQL**
 
 - **TRUNCATE**: Removes all rows from a table without altering its structure, offering faster performance compared to DELETE.
-- **TRUNCATE**: Example of truncating an "employees" table:
   ```sql
   TRUNCATE TABLE employees;
   ```
   
 - **DROP**: Erases a table entirely from the database, including all associated data, indexes, triggers, and constraints.
-- **DROP**: Example of dropping a table named "departments":
+
   ```sql
   DROP TABLE departments;
   ```
 
 - **DELETE**: Eliminates specific rows based on specified conditions, generating undo and redo logs.
-- **DELETE**: Example of deleting rows from an "orders" table based on a condition:
+
   ```sql
   DELETE FROM orders WHERE order_status = 'cancelled';
   ```
@@ -42,7 +39,7 @@
 **Understanding Normalization**
 
 - **First Normal Form (1NF)**: Ensures each table cell holds a single value, with unique column names and no repeating groups.
-- **First Normal Form (1NF)**: Example of converting a table into 1NF:
+- 
   ```sql
   -- Original table
   CREATE TABLE products (
@@ -60,7 +57,7 @@
   ```
   
 - **Second Normal Form (2NF)**: Extends 1NF by eliminating partial dependencies, ensuring non-prime attributes rely on the entire primary key.
-- **Second Normal Form (2NF)**: Example of ensuring 2NF by removing partial dependencies:
+
   ```sql
   -- Original table
   CREATE TABLE order_details (
@@ -80,7 +77,7 @@
   ```
 
 - **Third Normal Form (3NF)**: Builds on 2NF by removing transitive dependencies, ensuring non-prime attributes depend solely on candidate keys.
-- **Third Normal Form (3NF)**: Example of achieving 3NF by eliminating transitive dependencies:
+
   ```sql
   -- Original table
   CREATE TABLE employee_details (
@@ -103,10 +100,8 @@
   );
   ```
   
-**Improving Query Performance**
-
 - **Appropriate Data Types**: Choosing suitable data types for columns can enhance query performance, especially for filtering and sorting.
-- **Appropriate Data Types**: Example of using appropriate data types:
+
   ```sql
   CREATE TABLE products (
       product_id INT,
@@ -118,7 +113,6 @@
 
 - **Appropriate JOIN Types**: Selecting the correct JOIN type (e.g., INNER, OUTER, CROSS) can optimize query performance, particularly for multi-table joins.
 
-- **Appropriate JOIN Types**: Example of using INNER JOIN:
   ```sql
   SELECT orders.order_id, customers.customer_name
   FROM orders
@@ -127,7 +121,6 @@
   
 - **Appropriate Aggregate Functions**: Employing suitable aggregate functions (e.g., SUM, AVG, MIN, MAX) can improve performance, with some functions (e.g., COUNT) offering better efficiency than others.
 
-- **Appropriate Aggregate Functions**: Example of using SUM to calculate total sales:
   ```sql
   SELECT product_id, SUM(quantity * unit_price) AS total_sales
   FROM sales
@@ -146,7 +139,7 @@
          quantity - LAG(quantity) OVER (ORDER BY sale_date) AS quantity_change
   FROM sales;
   ```
-## Now, let''s say we want to analyze the change in quantity of products ordered from one order to the next. We can achieve this using the LAG() and LEAD() functions:
+### Now, let's say we want to analyze the change in quantity of products ordered from one order to the next. We can achieve this using the LAG() and LEAD() functions:
 
 ```sql
 --------------------------------------------------------------------------------------------------
@@ -173,7 +166,7 @@ In this simplified example:
 **Understanding Locks in SQL**
 
 - **Exclusive Lock**: Prevents other transactions from accessing locked rows for reading or writing, ensuring data integrity during modification.
-- **Exclusive Lock**: Example of applying an exclusive lock:
+
   ```sql
   BEGIN TRANSACTION;
   LOCK TABLE employees IN EXCLUSIVE MODE;
@@ -182,7 +175,7 @@ In this simplified example:
   ```
 
 - **Update Lock**: Allows reading but prevents updating or writing to locked rows, ensuring data consistency during read operations.
-- **Update Lock**: Example of using an update lock:
+
   ```sql
   SELECT * FROM employees FOR UPDATE;
   ```
@@ -190,7 +183,6 @@ In this simplified example:
 **Utilizing Window Functions in SQL**
 
 - **Window Functions**: Operate on row sets defined by window specifications, enabling calculations across rows, and can be used in various SQL statements for analytical tasks.
-**Utilizing Window Functions in SQL**
 
 - **Window Functions**: Example of calculating average salary by department using window functions:
   ```sql
