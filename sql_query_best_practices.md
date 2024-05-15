@@ -146,7 +146,30 @@
          quantity - LAG(quantity) OVER (ORDER BY sale_date) AS quantity_change
   FROM sales;
   ```
-  
+## Now, let''s say we want to analyze the change in quantity of products ordered from one order to the next. We can achieve this using the LAG() and LEAD() functions:
+
+```sql
+--------------------------------------------------------------------------------------------------
+-- Query to calculate the change in quantity of products ordered from one order to the next
+--------------------------------------------------------------------------------------------------
+SELECT 
+    od.OrderID,
+    od.ProductID,
+    od.Quantity,
+    LAG(od.Quantity) OVER (PARTITION BY od.ProductID ORDER BY o.OrderDate) AS prev_quantity,
+    LEAD(od.Quantity) OVER (PARTITION BY od.ProductID ORDER BY o.OrderDate) AS next_quantity
+FROM 
+    OrderDetails od
+JOIN 
+    Orders o ON od.OrderID = o.OrderID;
+```
+
+In this simplified example:
+
+- We calculate the change in quantity of products ordered using the LAG() function to get the quantity from the previous order and the LEAD() function to get the quantity from the next order, both partitioned by ProductID and ordered by OrderDate.
+- We join the OrderDetails table with the Orders table to retrieve the order dates.
+
+
 **Understanding Locks in SQL**
 
 - **Exclusive Lock**: Prevents other transactions from accessing locked rows for reading or writing, ensuring data integrity during modification.
