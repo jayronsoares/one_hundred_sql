@@ -276,7 +276,7 @@ CREATE INDEX idx_status ON orders (status);
 SELECT * FROM orders WHERE status = 'pending';
 ```
 ---------
-**Clustered vs Non-Clustered Indexes
+**Clustered vs Non-Clustered Indexes**
 ---------
 **Clustered Index:**
 - **Example:** A Customers table with a clustered index on CustomerID:
