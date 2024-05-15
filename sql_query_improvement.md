@@ -245,9 +245,9 @@ CREATE INDEX idx_customer_id ON orders (customer_id);
 SELECT * FROM orders o
 JOIN customers c ON o.customer_id = c.customer_id;
 ```
-
+---------
 **Leveraging High Cardinality and Low Cardinality for Query Optimization:**
-
+---------
 **1. High Cardinality:**
    - **Definition:** High cardinality refers to columns with a large number of distinct values, typically unique identifiers or primary keys.
    - **Pros:**
@@ -275,7 +275,9 @@ CREATE INDEX idx_status ON orders (status);
 -- Query utilizing the index in the WHERE clause for low cardinality column
 SELECT * FROM orders WHERE status = 'pending';
 ```
-
+---------
+**Clustered vs Non-Clustered Indexes
+---------
 **Clustered Index:**
 - **Example:** A Customers table with a clustered index on CustomerID:
 ```sql
