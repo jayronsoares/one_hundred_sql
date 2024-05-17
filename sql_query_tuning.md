@@ -1,7 +1,6 @@
 ## A Comprehensive Guide to SQL Query Tuning
 
-<p>Optimizing SQL queries is crucial for achieving efficient database performance.
-This guide walks you through a step-by-step process to tune SQL queries, ensuring robust cardinality estimates and overall query optimization in PostgreSQL, SQL Server, and MySQL.</p>
+<p>It's all about cardinality</p>
 
 ### Step 1: Identify Slow Queries
 
