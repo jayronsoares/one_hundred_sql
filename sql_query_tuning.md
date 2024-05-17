@@ -43,6 +43,113 @@ EXPLAIN SELECT * FROM my_table WHERE column = 'value';
 <p>Analyze the execution plan to compare estimated vs. actual row counts. Significant discrepancies often indicate inaccurate cardinality estimates.
 Cardinality refers to the number of distinct values in a column or the number of rows produced by a query operation. Accurate cardinality estimation is crucial for the database optimizer to choose the most efficient execution plan.</p>
 
+<p>These SQL queries for PostgreSQL provide a detailed view of the estimated vs actual rows cardinality context, including index scans, tuple reads and fetches, and table size.</p>
+
+### Option 1: Using `pg_stats` and `pg_class`
+
+```sql
+SELECT
+    relname AS table_name,
+    reltuples::bigint AS actual_cardinality,
+    (SELECT reltuples::bigint FROM pg_class WHERE relname = '{table_name}') AS estimated_cardinality,
+    idx_scan AS index_scans,
+    idx_tup_read AS index_tuple_reads,
+    idx_tup_fetch AS index_tuple_fetches,
+    pg_size_pretty(pg_total_relation_size(relid)) AS table_size
+FROM
+    pg_stat_all_tables
+WHERE
+    relname = '{table_name}';
+```
+
+### Option 2: Using `pg_stats` and `pg_index`
+
+```sql
+SELECT
+    t.relname AS table_name,
+    s.n_live_tup AS actual_cardinality,
+    (SELECT s.n_live_tup FROM pg_stat_user_tables s INNER JOIN pg_class t ON s.relid = t.oid WHERE t.relname = '{table_name}') AS estimated_cardinality,
+    idx_scan AS index_scans,
+    idx_tup_read AS index_tuple_reads,
+    idx_tup_fetch AS index_tuple_fetches,
+    pg_size_pretty(pg_total_relation_size(t.oid)) AS table_size
+FROM
+    pg_stat_user_tables s
+INNER JOIN
+    pg_class t ON s.relid = t.oid
+INNER JOIN
+    pg_index i ON t.oid = i.indrelid
+WHERE
+    t.relname = '{table_name}';
+```
+<p>A comprehensive context for the estimated vs actual rows cardinality, to include additional information such as index statistics, fragmentation, and index usage statistics.</p>
+
+### SQL Server:
+
+#### Option 1: `sys.dm_db_partition_stats` and `sys.dm_db_index_usage_stats`
+
+```sql
+SELECT
+    OBJECT_NAME(p.object_id) AS table_name,
+    SUM(p.rows) AS actual_cardinality,
+    (SELECT SUM(p.rows) FROM sys.dm_db_partition_stats p WHERE OBJECT_NAME(p.object_id) = '{table_name}') AS estimated_cardinality,
+    SUM(s.user_seeks + s.user_scans) AS index_usage,
+    s.avg_fragmentation_in_percent AS fragmentation_percentage
+FROM 
+    sys.dm_db_partition_stats p
+INNER JOIN 
+    sys.dm_db_index_usage_stats s ON p.object_id = s.object_id
+WHERE 
+    OBJECT_NAME(p.object_id) = '{table_name}'
+GROUP BY 
+    p.object_id, s.user_seeks, s.user_scans, s.avg_fragmentation_in_percent;
+```
+
+#### Option 2: `sys.dm_db_index_physical_stats`
+
+```sql
+SELECT 
+    OBJECT_NAME(p.object_id) AS table_name,
+    SUM(p.rows) AS actual_cardinality,
+    (SELECT SUM(p.rows) FROM sys.dm_db_index_physical_stats(DB_ID(), OBJECT_ID('{table_name}'), NULL, NULL, 'DETAILED')) AS estimated_cardinality,
+    p.avg_fragmentation_in_percent
+FROM 
+    sys.dm_db_index_physical_stats(DB_ID(), OBJECT_ID('{table_name}'), NULL, NULL, 'DETAILED') p
+WHERE 
+    OBJECT_NAME(p.object_id) = '{table_name}'
+GROUP BY 
+    p.object_id, p.avg_fragmentation_in_percent;
+```
+
+### MySQL:
+
+#### Option 1: `information_schema.TABLES` and `information_schema.STATISTICS`
+
+```sql
+SELECT
+    TABLE_NAME,
+    TABLE_ROWS AS actual_cardinality,
+    (SELECT TABLE_ROWS FROM information_schema.TABLES WHERE TABLE_SCHEMA = '{database_name}' AND TABLE_NAME = '{table_name}') AS estimated_cardinality,
+    INDEX_NAME,
+    NON_UNIQUE,
+    SEQ_IN_INDEX,
+    INDEX_TYPE,
+    COMMENT
+FROM 
+    information_schema.TABLES t
+INNER JOIN 
+    information_schema.STATISTICS s ON t.TABLE_SCHEMA = s.TABLE_SCHEMA AND t.TABLE_NAME = s.TABLE_NAME
+WHERE 
+    t.TABLE_NAME = '{table_name}';
+```
+
+#### Option 2: `SHOW INDEX` and `SHOW TABLE STATUS`
+
+```sql
+SHOW INDEX FROM {table_name};
+SHOW TABLE STATUS WHERE Name = '{table_name}';
+```       
+
 ### Step 4: Update Statistics
 
 <p>Updating statistics ensures the query optimizer has the most current data distribution information.</p>
