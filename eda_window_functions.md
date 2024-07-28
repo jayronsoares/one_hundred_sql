@@ -1,6 +1,6 @@
 Exploratory Data Analysis (EDA) involves analyzing datasets to summarize their main characteristics using various techniques and tools. SQL window functions are particularly powerful for EDA, as they allow you to perform complex calculations across rows related to the current row without collapsing the result set. This capability makes them extremely useful for various types of data analysis tasks, including ranking, aggregating, and filtering data.
 
-Let's dive into the top 10 SQL window function analysis queries that you can use for EDA on an e-commerce database similar to the one we've discussed.
+Let's dive into the top 10 SQL window function analysis queries that you can use for EDA on an e-commerce database.
 
 ### 1. **Calculating Running Total of Orders**
 
