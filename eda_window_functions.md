@@ -214,56 +214,6 @@ ORDER BY
 
 ---
 
-### Complete SQL Queries with Joins and Additional Context
-
-Let's provide more detailed SQL queries, including relevant joins and context from the e-commerce database schema we discussed earlier.
-
-#### Schema Overview
-
-Here’s a reminder of the key tables in the database:
-
-1. **Customers**
-   - `id`: Customer ID
-   - `first_name`
-   - `last_name`
-   - `email`
-   - `phone_number`
-   - `address`
-   
-2. **Orders**
-   - `id`: Order ID
-   - `customer_id`
-   - `employee_id`
-   - `order_date`
-   - `status`
-   - `total_amount`
-   
-3. **Order_Items**
-   - `id`: Item ID
-   - `order_id`
-   - `product_id`
-   - `quantity`
-   - `price`
-   
-4. **Shipments**
-   - `id`: Shipment ID
-   - `order_id`
-   - `shipped_date`
-   - `delivery_date`
-   - `status`
-   - `tracking_number`
-   
-5. **Products**
-   - `id`: Product ID
-   - `name`
-   - `category`
-   - `price`
-   - `stock_quantity`
-
-#### Query Implementations
-
-Here's a detailed implementation of each query with added context and joins:
-
 ### 1. Running Total of Orders Over Time
 
 ```sql
